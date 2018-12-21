@@ -5,6 +5,8 @@ set nocompatible
 set langmenu=en_US.UTF-8
 if has("win32")
   language en
+  "set shell=powershell
+  "set shellcmdflag=-command
 endif
 
 " Apply defaults everyone wants
@@ -142,8 +144,11 @@ set fileformats=unix,dos
 " Set font for Gvim
 set guifont=Consolas:h9
 
+" Disable mouse support
+set mouse = ""
+
 " Disable mouse tips
-set guioptions-=T
+"set guioptions-=T
 
 " Disable gvim menus ant toolbars
 set go-=m
@@ -197,8 +202,8 @@ set display+=lastline
 " Tab config
 set smartindent
 set autoindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 set smarttab
 
@@ -221,8 +226,8 @@ nnoremap tw :%s/\s\+$//<CR>:noh<CR>
 nnoremap go :tabnew<CR>
 
 " QuickFixWindow
-autocmd QuickFixCmdPost [^l]* copen 25
-autocmd QuickFixCmdPost    l* lopen 25
+autocmd QuickFixCmdPost [^l]* copen 15
+autocmd QuickFixCmdPost    l* lopen 15
 noremap to :copen 25<cr>
 noremap tc :cclose<cr>
 
@@ -263,11 +268,11 @@ colorscheme bugi
 " MUcomplete
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = { 
-      \ 'default' : ['path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'dict', 'uspl', 'tags' ],
+      \ 'default' : ['path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'tags' ],
       \ 'vim' : [ 'path', 'cmd', 'keyn', 'keyp' ],
-      \ 'puppet' : [ 'path', 'omni', 'tags', 'keyn', 'keyp', 'c-n', 'c-p', 'incl', 'dict', 'uspl', 'defs', 'ulti' ],
-      \ 'python' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'dict', 'uspl', 'ulti', 'tags' ],
-      \ 'ruby' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'dict', 'uspl', 'ulti', 'tags' ],
+      \ 'puppet' : [ 'path', 'omni', 'keyn', 'keyp', 'tags', 'c-n', 'c-p', 'uspl', 'ulti' ],
+      \ 'python' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'ulti', 'tags' ],
+      \ 'ruby' : [ 'path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'ulti', 'tags' ],
       \ }
 
 " CtrlP
@@ -327,7 +332,14 @@ let g:TasksAttributeMarker = '@'
 let g:TasksArchiveSeparator = '================================'
 
 " GitGutter
-let g:gitgutter_grep = ''
+if has("win32")
+  let g:gitgutter_grep = 'findstr'
+else
+  let g:gitgutter_grep = 'grep'
+endif
+let g:gitgutter_eager = 0
+"au! gitgutter CursorHold,CursorHoldI
+"au BufWritePost * GitGutter
 nmap t[ <Plug>GitGutterNextHunk
 nmap t] <Plug>GitGutterPrevHunk
 
@@ -358,7 +370,10 @@ au BufNewFile,BufReadPost *.md setlocal textwidth=80
 " Run rspec on Windows 10 with WFL
 autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
 autocmd Filetype groovy let b:dispatch = 'gradlew clean test'
+autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
 nnoremap <F7> :Dispatch<CR>
+" Move quickfix window to very bottom
+autocmd FileType qf wincmd J
 
 " Ruby change syntaxt to 2.1
 nnoremap <F8> :%s/\(\w*\)[ ]*=>/\1:/gc<CR>
