@@ -5,8 +5,6 @@ set nocompatible
 set langmenu=en_US.UTF-8
 if has("win32")
   language en
-  "set shell=powershell
-  "set shellcmdflag=-command
 endif
 
 " Apply defaults everyone wants
@@ -33,27 +31,25 @@ call vundle#begin('$HOME/.vim/bundle/')
 Plugin 'VundleVim/Vundle.vim'             "Plugin manager
 Plugin 'run2cmd/ide.vim'                  "Main vimrc configuration
 Plugin 'ctrlpvim/ctrlp.vim'               "Buffer Control
+Plugin 'sgur/ctrlp-extensions.vim'        "Extensions for CtrlP (Yankring)
+Plugin 'lambdalisue/fila.vim'             "File Explorer (netrw support for Windows is poor)
 Plugin 'w0rp/ale'                         "Syntax Checker
 Plugin 'rodjek/vim-puppet'                "Puppet syntax support
 Plugin 'tpope/vim-fugitive'               "git support
+Plugin 'mhinz/vim-signify'                "VCS differences in sign column
 Plugin 'tpope/vim-unimpaired'             "Quick switch over mappings
 Plugin 'tpope/vim-surround'               "Easy surround changes
 Plugin 'tpope/vim-dispatch'               "Run async commands
+Plugin 'airblade/vim-rooter'              "Change root to .git directory
 Plugin 'ludovicchabant/vim-gutentags'     "Generate c-tags
-Plugin 'irrationalistic/vim-tasks'        "Todo list
-Plugin 'airblade/vim-gitgutter'           "Enable gitgutter
 Plugin 'lifepillar/vim-mucomplete'        "Completeion Engine
 Plugin 'godlygeek/tabular'                "auto tab
 Plugin 'plasticboy/vim-markdown'          "Support for markdown docs
 Plugin 'Yggdroot/indentLine'              "Indent line
 Plugin 'gilsondev/searchtasks.vim'        "Search tasks: TODO, FIXME, etc.
 Plugin 'tpope/vim-endwise'                "Auto end functions
-"Plugin 'python-mode/python-mode'          "Support for Python
-"Plugin 'vim-ruby/vim-ruby'                "Support for Ruby
-Plugin 'tomtom/tcomment_vim'              "Easy comment
 Plugin 'sukima/xmledit'                   "Xml support
-Plugin 'airblade/vim-rooter'              "Change root to .git directory
-Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'aklt/plantuml-syntax'             "PlantUML support
 if i_have_vundle == 0
   echo "Installing Vundles, please ignore key map error messages"
   echo ""
@@ -142,19 +138,18 @@ set fileformat=unix
 set fileformats=unix,dos
 
 " Set font for Gvim
-set guifont=Consolas:h9
-
-" Disable mouse support
-set mouse = ""
-
-" Disable mouse tips
-"set guioptions-=T
+set guifont=Consolas:h10
 
 " Disable gvim menus ant toolbars
-set go-=m
-set go-=T
-set go-=r
-set go-=L
+set guioptions-=m
+set guioptions-=T
+set guioptions-=t
+set guioptions-=r
+set guioptions-=L
+
+" Tab names
+set guitablabel=%F
+set tabline=%F
 
 " Search options
 set hlsearch
@@ -232,7 +227,7 @@ noremap to :copen 25<cr>
 noremap tc :cclose<cr>
 
 " netrw configuratoin
-nnoremap tf :Explore<CR>
+"nnoremap tf :Explore<CR>
 let g:netrw_fastbrowse     = 0
 let g:netrw_banner         = 0
 let g:netrw_preview        = 1
@@ -281,6 +276,7 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
 \ 'dir':  '\.git$\|\.svn$\|\.hg$\|\.yardoc$\|node_modules\|spec\\fixtures\\modules$',
 \ }
+nnoremap <C-y> :CtrlPYankring<CR>
 
 " vim-puppet
 " Disable => autointent
@@ -317,12 +313,6 @@ endfunction
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
 
-
-" Yank
-let g:yankstack_map_keys = 0
-nmap <C-w>p <Plug>yankstack_substitute_older_paste
-nmap <C-w>u <Plug>yankstack_substitute_newer_paste
-
 " vim tasks
 let g:TasksMarkerBase = '[ ]'
 let g:TasksMarkerDone = '+'
@@ -353,24 +343,27 @@ nnoremap tp :Tab/=><CR>
 " Vim-rooter
 let g:rooter_silent_chdir = 1
 
-" Ruby Mode
-au BufNewFile,BufReadPost *.rb set tabstop=2 shiftwidth=2
+" Fila Explorer
+nnoremap tf :Fila<CR>
 
 " Filetype support
+au BufNewFile,BufReadPost *.rb set tabstop=2 shiftwidth=2
 au BufNewFile,BufReadPost *.todo setlocal textwidth=1000
 au BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
 au BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
 au BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
 au BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+au BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
 au BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
 au BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
 au BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
 au BufNewFile,BufReadPost *.md setlocal textwidth=80
 
-" Run rspec on Windows 10 with WFL
+" Run Tests with vim-dispatch
 autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
-autocmd Filetype groovy let b:dispatch = 'gradlew clean test'
+autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
 autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
+autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
 nnoremap <F7> :Dispatch<CR>
 " Move quickfix window to very bottom
 autocmd FileType qf wincmd J
