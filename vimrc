@@ -321,17 +321,6 @@ let g:TasksDateFormat = '%Y-%m-%d %H:%M'
 let g:TasksAttributeMarker = '@'
 let g:TasksArchiveSeparator = '================================'
 
-" GitGutter
-if has("win32")
-  let g:gitgutter_grep = 'findstr'
-else
-  let g:gitgutter_grep = 'grep'
-endif
-let g:gitgutter_eager = 0
-"au! gitgutter CursorHold,CursorHoldI
-"au BufWritePost * GitGutter
-nmap t[ <Plug>GitGutterNextHunk
-nmap t] <Plug>GitGutterPrevHunk
 
 " Tags
 let g:gutentags_cache_dir = '~/.vim/tags'
