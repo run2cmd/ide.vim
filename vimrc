@@ -217,14 +217,12 @@ endif
 autocmd BufEnter * :syntax sync fromstart
 
 " Shortcuts
-nnoremap tw :%s/\s\+$//<CR>:noh<CR>
+nnoremap gc :%s/\s\+$//<CR>:noh<CR>
 nnoremap go :tabnew<CR>
 
 " QuickFixWindow
-autocmd QuickFixCmdPost [^l]* copen 15
-autocmd QuickFixCmdPost    l* lopen 15
-noremap to :copen 25<cr>
-noremap tc :cclose<cr>
+autocmd QuickFixCmdPost [^l]* copen 10
+autocmd QuickFixCmdPost    l* lopen 10
 
 " netrw configuratoin
 "nnoremap tf :Explore<CR>
@@ -262,7 +260,7 @@ colorscheme bugi
 
 " MUcomplete
 let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#chains = { 
+let g:mucomplete#chains = {
       \ 'default' : ['path', 'omni', 'keyn', 'keyp', 'c-n', 'c-p', 'uspl', 'tags' ],
       \ 'vim' : [ 'path', 'cmd', 'keyn', 'keyp' ],
       \ 'puppet' : [ 'path', 'omni', 'keyn', 'keyp', 'tags', 'c-n', 'c-p', 'uspl', 'ulti' ],
@@ -295,8 +293,8 @@ else
 endif
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
-nmap <silent> tj <Plug>(ale_previous_wrap)
-nmap <silent> tk <Plug>(ale_next_wrap)
+nmap <silent> gj <Plug>(ale_previous_wrap)
+nmap <silent> gk <Plug>(ale_next_wrap)
 " Custom Ale Linter
 function! LinterStatus() abort
   let l:counts = ale#statusline#Count(bufnr(''))
@@ -313,40 +311,31 @@ endfunction
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
 
-" vim tasks
-let g:TasksMarkerBase = '[ ]'
-let g:TasksMarkerDone = '+'
-let g:TasksMarkerCancelled = '-'
-let g:TasksDateFormat = '%Y-%m-%d %H:%M'
-let g:TasksAttributeMarker = '@'
-let g:TasksArchiveSeparator = '================================'
-
-
 " Tags
 let g:gutentags_cache_dir = '~/.vim/tags'
 let g:gutentags_exclude_project_root = ['fixtures']
 
 " Tabular vim
-nnoremap tp :Tab/=><CR>
+nnoremap gp :Tab/=><CR>
 
 " Vim-rooter
 let g:rooter_silent_chdir = 1
 
 " Fila Explorer
-nnoremap tf :Fila<CR>
+nnoremap <F6> :Fila<CR>
 
 " Filetype support
-au BufNewFile,BufReadPost *.rb set tabstop=2 shiftwidth=2
-au BufNewFile,BufReadPost *.todo setlocal textwidth=1000
-au BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-au BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
-au BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
-au BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-au BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
-au BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
-au BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
-au BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
-au BufNewFile,BufReadPost *.md setlocal textwidth=80
+autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
+autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
+autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
+autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
+autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
+autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
+autocmd BufNewFile,BufReadPost *.yml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
+autocmd BufNewFile,BufReadPost *.bat setlocal tabstop=2 shiftwidth=2 ff=dos
+autocmd BufNewFile,BufReadPost *.md setlocal textwidth=80
 
 " Run Tests with vim-dispatch
 autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s '\\' '/' \| xargs -i rspec {}\""
