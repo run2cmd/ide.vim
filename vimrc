@@ -343,6 +343,8 @@ autocmd Filetype ruby let b:dispatch = "bash.exe --login -c \"echo '%' \| tr -s 
 autocmd Filetype groovy let b:dispatch = 'gradlew clean test build --info'
 autocmd Filetype xml let b:dispatch = 'mvn clean install -f % -DskipTests'
 autocmd Filetype uml,plantuml,pu let b:dispatch = 'plantuml %'
+autocmd Filetype yaml,yml let b:dispatch = "bash.exe --login -c \"ansible-lint '%'\""
+autocmd BufNewFile,BufReadPost Jenkinsfile let b:dispatch = "type % | plink -batch -load jenkins-lint declarative-linter"
 nnoremap <F7> :Dispatch<CR>
 " Move quickfix window to very bottom
 autocmd FileType qf wincmd J
