@@ -283,7 +283,6 @@ let g:puppet_align_hashes = 0
 " Ale checker
 " Does not support puppet options yet, so need to setup '--no-140chars-check' in  ~/.puppet-lint.rc
 let g:ale_echo_msg_format = '[%linter%][%severity%][%code%] %s'
-let g:ale_yaml_yamllint_options = '-d "rules: {line-length: {allow-non-breakable-words: true, max: 300, allow-non-breakable-inline-mappings: true}}"'
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_eruby_erubylint_options = "-T '-'"
 if has("win32")
