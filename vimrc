@@ -32,7 +32,7 @@ Plugin 'VundleVim/Vundle.vim'             "Plugin manager
 Plugin 'run2cmd/ide.vim'                  "Main vimrc configuration
 Plugin 'ctrlpvim/ctrlp.vim'               "Buffer Control
 Plugin 'sgur/ctrlp-extensions.vim'        "Extensions for CtrlP (Yankring)
-Plugin 'lambdalisue/fila.vim'             "File Explorer (netrw support for Windows is poor)
+Plugin 'vifm/neovim-vifm'                 "Vim like File explorer integration
 Plugin 'w0rp/ale'                         "Syntax Checker
 Plugin 'rodjek/vim-puppet'                "Puppet syntax support
 Plugin 'tpope/vim-fugitive'               "git support
@@ -322,14 +322,16 @@ nnoremap gp :Tab/=><CR>
 let g:rooter_silent_chdir = 1
 
 " Fila Explorer
-nnoremap <F6> :Fila<CR>
+"nnoremap <F6> :Fila<CR>
+nnoremap <F6> :edit %:p:h<CR>
 
 " Filetype support
 autocmd BufNewFile,BufReadPost *.rb setlocal tabstop=2 shiftwidth=2
+autocmd BufNewFile,BufReadPost Gemfile* setlocal tabstop=2 shiftwidth=2 filetype=ruby syntax=ruby
 autocmd BufNewFile,BufReadPost *.todo setlocal textwidth=1000
 autocmd BufNewFile,BufReadPost *Jenkinsfile* setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
 autocmd BufNewFile,BufReadPost *Vagrantfile* setlocal tabstop=2 shiftwidth=2 syntax=ruby filetype=ruby
-autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=4 shiftwidth=4 syntax=xml filetype=xml
+autocmd BufNewFile,BufReadPost *.xml setlocal tabstop=2 shiftwidth=2 syntax=xml filetype=xml
 autocmd BufNewFile,BufReadPost *.groovy setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
 autocmd BufNewFile,BufReadPost *.gradle setlocal tabstop=4 shiftwidth=4 syntax=groovy filetype=groovy
 autocmd BufNewFile,BufReadPost *.yaml setlocal tabstop=2 shiftwidth=2 syntax=yaml filetype=yaml
