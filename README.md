@@ -6,7 +6,9 @@ VIM configuration to bring IDE experiance out of the box for VIM 7.4 and above.
 Works with Vundle Plugin Manager only. For other plugin managers you need to tweak vimrc file
 
 ## Requirements
-- Git
+- [Git](https://git-scm.com/downloads)
+- [ViFM](https://vifm.info/downloads.shtml)
+- Lint and syntax checkers you need for [ALE](https://github.com/w0rp/ale)
 
 ## Installation
 For basic sourcing
