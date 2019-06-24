@@ -1,7 +1,7 @@
 # ide.vim
 
-This project is discontinued. I have moved to my own dotfiles wich contain full setup for VIM and not only: 
-https://github.com/run2cmd/dotfiles
+__This project is discontinued. I have moved to my own dotfiles wich contain full setup for VIM and not only: 
+https://github.com/run2cmd/dotfiles__
 
 Bring IDE experiance to VIM
 
