@@ -1,5 +1,8 @@
 # ide.vim
 
+This project is discontinued. I have moved to my own dotfiles wich contain full setup for VIM and not only: 
+https://github.com/run2cmd/dotfiles
+
 Bring IDE experiance to VIM
 
 VIM configuration to bring IDE experiance out of the box for VIM 7.4 and above.
